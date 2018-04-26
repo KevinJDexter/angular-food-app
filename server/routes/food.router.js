@@ -1,4 +1,5 @@
 const router = require('express').Router();
+const Foods = require('../models/food.schema');
 
 let foods = [{
   name: 'Bacon',
@@ -7,7 +8,14 @@ let foods = [{
 }]
 
 router.get('/', (req, res) => {
-  res.send(foods)
+  Foods.find({})
+    .then((dataFromDatabase) => {
+      res.send(dataFromDatabase);
+    })
+    .catch((error) => {
+      console.log('caught error:', error);
+      res.send(500);
+    })
 });
 
 module.exports = router;
